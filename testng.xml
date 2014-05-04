@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+    <test name="test login" preserve-order="true">
+        <parameter name="Uname" value="yuxin"/>
+        <parameter name="Pword" value="zaq1,lp-"/>
+        <classes>
+            <class name="com.blog.test.BlogTest">
+                <methods>
+                    <include name="testLogin"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="test search" preserve-order="true">
+        <parameter name="content" value="宗刚"/>
+        <classes>
+            <class name="com.blog.test.BlogTest">
+                <methods>
+                    <include name="testSearch"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <!--<test name="test settings general" preserve-order="true">-->
+        <!--<parameter name="default_role" value="author"/>-->
+        <!--<classes>-->
+            <!--<class name="com.blog.test.BlogTest">-->
+                <!--<methods>-->
+                    <!--<include name="testChangeSettings"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <!--<test name="test media delete" preserve-order="true">-->
+        <!--<classes>-->
+            <!--<class name="com.blog.test.BlogTest">-->
+                <!--<methods>-->
+                    <!--<include name="testDeleteMedia"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <!--<test name="test set header" preserve-order="true">-->
+        <!--<classes>-->
+            <!--<class name="com.blog.test.BlogTest">-->
+                <!--<methods>-->
+                    <!--<include name="testSetHeader"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
+</suite>

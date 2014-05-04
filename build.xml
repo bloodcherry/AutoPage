@@ -1,0 +1,71 @@
+<?xml version="1.0"  encoding="GB2312" ?>
+
+<project name="PageObject" default="regression" basedir=".">
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="selenium.dir" value="/Users/Ryan/Documents/Selenium"/>
+    <property name="pmd.dir" value="/Users/Ryan/Documents/Plugins/PMDPlugin"/>
+
+    <taskdef resource="testngtasks" classpath="${selenium.dir}/testng.jar"/>
+
+    <path id="classpath">
+        <fileset dir="${selenium.dir}">
+            <include name="junit-4.11.jar"/>
+            <include name="selenium-java-2.39.0.jar"/>
+            <include name="selenium-server-standalone-2.39.0.jar"/>
+            <include name="testng.jar"/>
+            <include name="pmd-4.2.5.jar"/>
+            <include name="jaxen-1.1-beta-6.jar"/>
+        </fileset>
+    </path>
+
+    <path id="pmd.path">
+        <fileset dir="${pmd.dir}/lib/">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean" description="清理">
+        <delete dir="${build.dir}"/>
+        <echo>清理完毕</echo>
+    </target>
+
+    <target name="init" depends="clean" description="初始化">
+        <mkdir dir="${build.dir}"/>
+        <echo>初始化完毕</echo>
+    </target>
+
+    <target name="compile" depends="init" description="编译">
+        <javac srcdir="${src.dir}" destdir="${build.dir}"
+               includeantruntime="on">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="pmd" depends="compile" description="PMD静态检查">
+        <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.path"/>
+        <pmd shortfilenames="true">
+            <ruleset>rulesets/design.xml</ruleset>
+            <ruleset>rulesets/naming.xml</ruleset>
+            <ruleset>rulesets/basic.xml</ruleset>
+            <formatter type="html" toFile="${build.dir}/pmd.html"/>
+            <fileset dir="${src.dir}">
+                <include name="com/blog/**/*.java"/>
+            </fileset>
+        </pmd>
+    </target>
+
+    <path id="classesjar">
+        <fileset dir="${selenium.dir}" includes="*.jar"/>
+        <pathelement location="${build.dir}"/>
+    </path>
+
+    <target name="regression" depends="pmd" description="运行testng">
+        <testng classpathref="classesjar" useDefaultListeners="false"
+                listeners="org.uncommons.reportng.HTMLReporter,org.testng.reporters.FailedReporter">
+            <xmlfileset dir="${src.dir}" includes="testng.xml"/>
+            <sysproperty key="org.uncommons.reportng.title" value="MyTest Report"/>
+        </testng>
+    </target>
+
+</project>
